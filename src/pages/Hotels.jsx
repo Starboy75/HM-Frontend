@@ -3,10 +3,14 @@ import { Card, CardContent, CardFooter } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 // import hotel1 from "@/images/hotel1.jpg"
+import { useNavigate } from "react-router-dom";
+import BookingForm from "./bookingsystem";
 
-export default function HotelListing() {
+export default function HotelListing({ booking, setBooking }) {
+  const navigate = useNavigate()
   const hotels = [
     {
+      id: 1987654321,
       name: "W Goa Vagator Beach",
       location: "Goa, India",
       rating: 9.3,
@@ -20,6 +24,7 @@ export default function HotelListing() {
       image: ""
     },
     {
+      id: 1987654322,
       name: "The LaLiT New Delhi",
       location: "Delhi, India",
       rating: 8.6,
@@ -33,6 +38,7 @@ export default function HotelListing() {
       image: ""
     },
     {
+      id: 1987654323,
       name: "OYO Jaipur",
       location: "Jaipur, India",
       rating: 8.3,
@@ -46,6 +52,7 @@ export default function HotelListing() {
       image: ""
     },
     {
+      id: 1987654324,
       name: "The Park Bangalore",
       location: "Bangalore,India",
       rating: 8.3,
@@ -59,6 +66,7 @@ export default function HotelListing() {
       image: ""
     },
     {
+      id: 1987654325,
       name: "The Leela Palace Chennai",
       location: "Chennai, India",
       rating: 8.3,
@@ -72,6 +80,7 @@ export default function HotelListing() {
       image: ""
     },
     {
+      id: 1987654326,
       name: "The Oberio Mumbai",
       location: "Mumbai, India",
       rating: 8.3,
@@ -124,7 +133,7 @@ export default function HotelListing() {
                       ✓ {feature}
                     </span>
                   ))}
-                  
+
                 </div>
                 <div className="flex items-center gap-2">
                   {hotel.features.map((feature, i) => (
@@ -132,7 +141,7 @@ export default function HotelListing() {
                       ✓ {feature}
                     </span>
                   ))}
-                  
+
                 </div>
               </div>
               <div className="flex items-baseline gap-1">
@@ -147,14 +156,22 @@ export default function HotelListing() {
               </div>
             </CardContent>
             <CardFooter className="p-4 pt-0">
-              <Button className="w-full" size="lg">
-                Check deal
+              <Button
+                className="w-full"
+                size="lg"
+                onClick={() => {
+                  setBooking(true)
+                  navigate(`/state/hotels?hotelId=${hotel.id}`)
+                }}
+              >
+                Book now
                 <ChevronRight className="w-4 h-4 ml-1" />
               </Button>
             </CardFooter>
           </Card>
         ))}
       </div>
+      <BookingForm booking={booking} setBooking={setBooking}/>
     </div>
   )
 }
