@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -16,6 +15,8 @@ import {
     DialogHeader,
     DialogDescription
 } from "@/components/ui/dialog";
+import { toast } from "sonner";
+import { Toaster } from "@/components/ui/sonner";
 
 export default function BookingForm({ booking, setBooking }) {
     const navigate = useNavigate();
@@ -61,20 +62,29 @@ export default function BookingForm({ booking, setBooking }) {
             await axios.post("/api/room-booking", formData, {
                 headers: { Authorization: `Bearer YOUR_AUTH_TOKEN` }
             });
-            alert("Booking Successful!");
+            toast.success("Booking successful", {
+                description: "Your room has been booked successfully. We look forward to hosting you.",
+            });
             navigate(`/state/hotels`);
         } catch (error) {
             console.error("Error submitting booking:", error);
-            alert("Booking failed. Please try again.");
+            toast.error(
+                "Booking failed", {
+                description: "Please try again.",
+
+            })
         }
     };
 
     return (
-        <Dialog open={booking} onOpenChange={() => {
-            setBooking(false);
-            navigate(`/state/hotels`);
-        }}>
-            <DialogContent className="mx-auto max-w-4xl">
+        <Dialog
+            open={booking}
+            onOpenChange={() => {
+                setBooking(false);
+                navigate(`/state/hotels`);
+            }}
+        >
+            <DialogContent className="mx-auto max-w-4xl max-h-screen overflow-y-auto">
                 <DialogHeader className="text-center">
                     <DialogTitle className="text-3xl">Room Booking</DialogTitle>
                     <DialogDescription>Experience something new every moment</DialogDescription>
@@ -136,6 +146,7 @@ export default function BookingForm({ booking, setBooking }) {
                     <Button type="submit" className="w-full">Submit</Button>
                 </form>
             </DialogContent>
+            <Toaster />
         </Dialog>
     );
 }
