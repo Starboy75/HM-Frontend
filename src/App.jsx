@@ -13,6 +13,7 @@ import Page from './pages/page';
 function App() {
   const [userInfo, setUserInfo] = useState(null);
   const [isLogged, setIsLogged] = useState(false);
+  const [booking, setBooking] = useState(false);
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -45,8 +46,7 @@ function App() {
               <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/booking" element={<Book />} />
-                <Route path="/bookingform" element={<BookingForm />} />
-                <Route path="/hotels" element={<HotelListing />} />
+                <Route path="/state/hotels" element={<HotelListing booking={booking} setBooking={setBooking}/>} />
                 <Route path="/divisons" element={<States />} />
               </Routes>
               <Footer />
