@@ -17,7 +17,6 @@ import {
 } from "@/components/ui/dialog";
 import { toast } from "sonner";
 import { Toaster } from "@/components/ui/sonner";
-import { set } from "date-fns";
 
 export default function BookingForm({ booking, setBooking, dialogOpen, setDialogOpen }) {
     const navigate = useNavigate();
@@ -26,29 +25,30 @@ export default function BookingForm({ booking, setBooking, dialogOpen, setDialog
     // Extract hotelId from query string
     const getHotelIdFromQuery = () => {
         const params = new URLSearchParams(location.search);
-        return params.get("hotelId");  // hotelId must be named in URL like "?hotelId=1987654321"
+        return params.get("hotelId");
     };
 
-    const [hotelId, setHotelId] = useState("");
+    const [hotelId, setHotelId] = useState(getHotelIdFromQuery() || "");
 
     useEffect(() => {
         setHotelId(getHotelIdFromQuery());
     }, [location]);
 
-    console.log("Extracted hotelId:", hotelId); // ✅ Debugging: Check hotelId value
+    console.log("Extracted hotelId:", hotelId); // Debugging: Check hotelId value
 
     const [formData, setFormData] = useState({
-        hotelId: hotelId || "",  // ✅ Include hotelId in formData
+        hotelId: hotelId || "",  
         firstName: "",
         lastName: "",
         email: "",
         contact: "",
         roomType: "",
-        dateRange: {},
-        guests: {},
-        specialRequests: ""
+        dateRange: { startDate: null, endDate: null },
+        guests: { adults: 1, children: 0, rooms: 1 },
+        specialRequests: "",
     });
 
+    // Ensure formData.hotelId updates when hotelId changes
     useEffect(() => {
         setFormData((prev) => ({ ...prev, hotelId }));
     }, [hotelId]);
@@ -59,33 +59,41 @@ export default function BookingForm({ booking, setBooking, dialogOpen, setDialog
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        // Validation
+        if (!formData.firstName || !formData.lastName || !formData.email || !formData.contact || !formData.roomType) {
+            toast.error("Please fill in all required fields.");
+            return;
+        }
+        if (!formData.dateRange.startDate || !formData.dateRange.endDate) {
+            toast.error("Please select a valid date range.");
+            return;
+        }
+
         try {
             await axios.post("/api/room-booking", formData);
+            setBooking(false);
+            setFormData({
+                hotelId: "",
+                firstName: "",
+                lastName: "",
+                email: "",
+                contact: "",
+                roomType: "",
+                dateRange: { startDate: null, endDate: null },
+                guests: { adults: 1, children: 0, rooms: 1 },
+                specialRequests: "",
+            });
             toast.success("Booking successful", {
                 description: "Your room has been booked successfully. We look forward to hosting you.",
             });
             navigate(`/state/hotels`);
         } catch (error) {
-            if (error.response.status === 400) {
-                toast.error(
-                    "Booking failed", {
-                    description: error.response.data.message,
-
-                })
-            }
-            if (error.response.status === 401) {
-                toast.error(
-                    "Booking failed", {
-                    description: error.response.data.message,
-
-                })
-                setDialogOpen(true)
-            } else {
-                toast.error(
-                    "Booking failed", {
-                    description: error.response.data.message,
-
-                })
+            if (error.response?.status === 401) {
+                toast.error("Booking failed", {
+                    description: error.response?.data?.message || "An unexpected error occurred.",
+                });
+                setDialogOpen(true);
             }
         }
     };
@@ -109,29 +117,29 @@ export default function BookingForm({ booking, setBooking, dialogOpen, setDialog
                     <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                         <div className="space-y-2">
                             <Label htmlFor="firstName">First Name</Label>
-                            <Input id="firstName" value={formData.firstName} onChange={handleChange} placeholder="First Name" />
+                            <Input id="firstName" value={formData.firstName} onChange={handleChange} placeholder="First Name" required />
                         </div>
                         <div className="space-y-2">
                             <Label htmlFor="lastName">Last Name</Label>
-                            <Input id="lastName" value={formData.lastName} onChange={handleChange} placeholder="Last Name" />
+                            <Input id="lastName" value={formData.lastName} onChange={handleChange} placeholder="Last Name" required />
                         </div>
                     </div>
 
                     {/* Email */}
                     <div className="space-y-2">
                         <Label htmlFor="email">E-mail <span className="text-red-500">*</span></Label>
-                        <Input id="email" type="email" value={formData.email} onChange={handleChange} placeholder="ex: myname@example.com" />
+                        <Input id="email" type="email" value={formData.email} onChange={handleChange} placeholder="myname@example.com" required />
                     </div>
 
                     {/* Contact & Room Type */}
                     <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                         <div className="space-y-2">
                             <Label htmlFor="contact">Contact</Label>
-                            <Input id="contact" value={formData.contact} onChange={handleChange} placeholder="00000-00000" />
+                            <Input id="contact" type="tel" value={formData.contact} onChange={handleChange} placeholder="1234567890" pattern="\d{10}" required />
                         </div>
                         <div className="space-y-2">
                             <Label htmlFor="roomType">Room Type</Label>
-                            <Select onValueChange={(value) => setFormData({ ...formData, roomType: value })}>
+                            <Select value={formData.roomType} onValueChange={(value) => setFormData({ ...formData, roomType: value })} required>
                                 <SelectTrigger>
                                     <SelectValue placeholder="Please Select" />
                                 </SelectTrigger>
@@ -146,7 +154,7 @@ export default function BookingForm({ booking, setBooking, dialogOpen, setDialog
 
                     {/* Date Range & Guests */}
                     <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-                        <DatePickerWithRange onChange={(value) => setFormData({ ...formData, dateRange: value })} />
+                        <DatePickerWithRange onChange={(value) => {console.log(value);setFormData({ ...formData, dateRange: value })}} />
                         <GuestSelector onChange={(value) => setFormData({ ...formData, guests: value })} />
                     </div>
 
