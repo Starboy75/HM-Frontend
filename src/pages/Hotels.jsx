@@ -6,7 +6,7 @@ import { Badge } from "@/components/ui/badge"
 import { useNavigate } from "react-router-dom";
 import BookingForm from "./bookingsystem";
 
-export default function HotelListing({ booking, setBooking }) {
+export default function HotelListing({ booking, setBooking, dialogOpen, setDialogOpen }) {
   const navigate = useNavigate()
   const hotels = [
     {
@@ -171,7 +171,7 @@ export default function HotelListing({ booking, setBooking }) {
           </Card>
         ))}
       </div>
-      <BookingForm booking={booking} setBooking={setBooking}/>
+      <BookingForm booking={booking} setBooking={setBooking} dialogOpen={dialogOpen} setDialogOpen={setDialogOpen}/>
     </div>
   )
 }

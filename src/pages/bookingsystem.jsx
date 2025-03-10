@@ -17,8 +17,9 @@ import {
 } from "@/components/ui/dialog";
 import { toast } from "sonner";
 import { Toaster } from "@/components/ui/sonner";
+import { set } from "date-fns";
 
-export default function BookingForm({ booking, setBooking }) {
+export default function BookingForm({ booking, setBooking, dialogOpen, setDialogOpen }) {
     const navigate = useNavigate();
     const location = useLocation();
 
@@ -59,20 +60,33 @@ export default function BookingForm({ booking, setBooking }) {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            await axios.post("/api/room-booking", formData, {
-                headers: { Authorization: `Bearer YOUR_AUTH_TOKEN` }
-            });
+            await axios.post("/api/room-booking", formData);
             toast.success("Booking successful", {
                 description: "Your room has been booked successfully. We look forward to hosting you.",
             });
             navigate(`/state/hotels`);
         } catch (error) {
-            console.error("Error submitting booking:", error);
-            toast.error(
-                "Booking failed", {
-                description: "Please try again.",
+            if (error.response.status === 400) {
+                toast.error(
+                    "Booking failed", {
+                    description: error.response.data.message,
 
-            })
+                })
+            }
+            if (error.response.status === 401) {
+                toast.error(
+                    "Booking failed", {
+                    description: error.response.data.message,
+
+                })
+                setDialogOpen(true)
+            } else {
+                toast.error(
+                    "Booking failed", {
+                    description: error.response.data.message,
+
+                })
+            }
         }
     };
 

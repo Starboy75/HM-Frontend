@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
-import Book from './pages/Booking';
 import HotelListing from './pages/Hotels';
 import Header from './pages/Header';
 import Footer from './pages/Footer';
@@ -13,6 +12,7 @@ function App() {
   const [userInfo, setUserInfo] = useState(null);
   const [isLogged, setIsLogged] = useState(false);
   const [booking, setBooking] = useState(false);
+  const [dialogOpen, setDialogOpen] = useState(false)
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -41,11 +41,10 @@ function App() {
           path="*" 
           element={
             <>
-              <Header setIsLogged={setIsLogged} setUserInfo={setUserInfo} userInfo={userInfo} isLogged={isLogged} />
+              <Header setIsLogged={setIsLogged} setUserInfo={setUserInfo} userInfo={userInfo} isLogged={isLogged} dialogOpen={dialogOpen} setDialogOpen={setDialogOpen}/>
               <Routes>
                 <Route path="/" element={<Home />} />
-                <Route path="/booking" element={<Book />} />
-                <Route path="/state/hotels" element={<HotelListing booking={booking} setBooking={setBooking}/>} />
+                <Route path="/state/hotels" element={<HotelListing booking={booking} setBooking={setBooking} dialogOpen={dialogOpen} setDialogOpen={setDialogOpen}/>} />
                 <Route path="/divisons" element={<States />} />
               </Routes>
               <Footer />

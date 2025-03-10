@@ -6,9 +6,9 @@ import { AuthDialog } from "./Auth/AuthDialog"
 import { LogOut } from "lucide-react"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 
-export default function Header({ userInfo, setUserInfo, isLogged, setIsLogged }) {
+export default function Header({ userInfo, setUserInfo, isLogged, setIsLogged, dialogOpen, setDialogOpen }) {
 
-    const [dialogOpen, setDialogOpen] = useState(false)
+
     const [auth, setAuth] = useState("login")
 
     const logout = () => {
