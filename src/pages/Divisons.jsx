@@ -5,7 +5,7 @@ const destinations = [
   {
     city: "New Delhi",
     image:
-      "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Screenshot%202025-02-20%20221237-Emx1sqrVG9jNK8RcQKrI2jIzC7BiML.png",
+      "",
     alt: "Humayun's Tomb in New Delhi",
   },
   {
