@@ -6,7 +6,7 @@ import HotelListing from './pages/Hotels';
 import Header from './pages/Header';
 import Footer from './pages/Footer';
 import States from './pages/Divisons';
-import Page from './pages/page';
+import Page from './admin/page';
 
 function App() {
   const [userInfo, setUserInfo] = useState(null);
