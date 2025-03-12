@@ -5,31 +5,37 @@ const destinations = [
   {
     city: "New Delhi",
     image:
-      "",
+      "src/images/newdelhi.webp",
     alt: "Humayun's Tomb in New Delhi",
   },
   {
     city: "Bangalore",
     image:
-      "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Screenshot%202025-02-20%20221237-Emx1sqrVG9jNK8RcQKrI2jIzC7BiML.png",
+      "src/images/bangalore.jpg",
     alt: "Vidhana Soudha building in Bangalore",
   },
   {
     city: "Mumbai",
     image:
-      "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Screenshot%202025-02-20%20221237-Emx1sqrVG9jNK8RcQKrI2jIzC7BiML.png",
+      "src/images/mumbai.jpg",
     alt: "Mumbai skyline with waterfront",
   },
   {
     city: "Chennai",
     image:
-      "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Screenshot%202025-02-20%20221237-Emx1sqrVG9jNK8RcQKrI2jIzC7BiML.png",
+      "src/images/chennai.jpeg",
     alt: "Marina memorial in Chennai",
   },
   {
     city: "Hyderabad",
     image:
-      "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Screenshot%202025-02-20%20221237-Emx1sqrVG9jNK8RcQKrI2jIzC7BiML.png",
+      "src/images/hyderabad.webp",
+    alt: "Charminar in Hyderabad",
+  },
+  {
+    city: "Jaipur",
+    image:
+      "src/images/jaipur.webp",
     alt: "Charminar in Hyderabad",
   },
 ];

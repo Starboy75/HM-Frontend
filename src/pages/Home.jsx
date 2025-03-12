@@ -7,6 +7,7 @@ import {
   NavigationMenuList
 } from "@/components/ui/navigation-menu"
 import { CalendarDays, Users, ClipboardList, Share2 } from "lucide-react"
+import { NavLink } from "react-router-dom"
 
 export default function Home() {
   return (
@@ -30,9 +31,18 @@ export default function Home() {
             </p>
             <div className="flex flex-wrap gap-4">
               <Button className="">
-                Try Welcome →
+              <NavLink
+                        className="text-white-600 hover:text-gray-900 font-bold"
+                        to="/divisons"
+                        >
+                            BOOK NOW
+                </NavLink>
               </Button>
+              <NavLink
+              className="text-white-600 hover:text-gray-900 font-bold"
+              to="/divisons">          
               <Button variant="outline">See our demo</Button>
+              </NavLink>
             </div>
             <p className="text-sm text-gray-500">
               

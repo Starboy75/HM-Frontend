@@ -29,7 +29,7 @@ const data = {
   user: {
     name: "Sakeen",
     email: "sakeen@gmail",
-    avatar: "/avatars/shadcn.jpg",
+    avatar: "src/images/logo.jpg",
   },
   team: {
       name: "HOTELHUB",
