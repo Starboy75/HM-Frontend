@@ -1,47 +1,54 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { useNavigate } from "react-router-dom"; // Import useNavigate
 
-const destinations = [
-  {
-    city: "New Delhi",
-    image:
-      "src/images/newdelhi.webp",
-    alt: "Humayun's Tomb in New Delhi",
-  },
-  {
-    city: "Bangalore",
-    image:
-      "src/images/bangalore.jpg",
-    alt: "Vidhana Soudha building in Bangalore",
-  },
-  {
-    city: "Mumbai",
-    image:
-      "src/images/mumbai.jpg",
-    alt: "Mumbai skyline with waterfront",
-  },
-  {
-    city: "Chennai",
-    image:
-      "src/images/chennai.jpeg",
-    alt: "Marina memorial in Chennai",
-  },
-  {
-    city: "Hyderabad",
-    image:
-      "src/images/hyderabad.webp",
-    alt: "Charminar in Hyderabad",
-  },
-  {
-    city: "Jaipur",
-    image:
-      "src/images/jaipur.webp",
-    alt: "Charminar in Hyderabad",
-  },
-];
 
-export default function States() {
+export default function States({setDestination}){
   const navigate = useNavigate(); // Initialize useNavigate
+
+  const destinations = [
+    {
+      city: "New Delhi",
+      image:
+        "src/images/newdelhi.webp",
+      alt: "Humayun's Tomb in New Delhi",
+      state: "delhi",
+    },
+    {
+      city: "Bangalore",
+      image:
+        "src/images/bangalore.jpg",
+      alt: "Vidhana Soudha building in Bangalore",
+      state:"bangalore"
+    },
+    {
+      city: "Mumbai",
+      image:
+        "src/images/mumbai.jpg",
+      alt: "Mumbai skyline with waterfront",
+      state:"mumbai"
+    },
+    {
+      city: "Chennai",
+      image:
+        "src/images/chennai.jpeg",
+      alt: "Marina memorial in Chennai",
+      state:"chennai"
+    },
+    {
+      city: "Hyderabad",
+      image:
+        "src/images/hyderabad.webp",
+      alt: "Charminar in Hyderabad",
+      state:"hyderabad"
+    },
+    {
+      city: "Jaipur",
+      image:
+        "src/images/jaipur.webp",
+      alt: "Charminar in Hyderabad",
+      state:"jaipur"
+    },
+  ];
 
   return (
     <main className="container mx-auto px-4 py-8">
@@ -53,7 +60,10 @@ export default function States() {
             className={`overflow-hidden cursor-pointer transition-transform hover:scale-[1.02] ${
               index < 2 ? "md:col-span-1 lg:col-span-1" : ""
             }`}
-            onClick={() => navigate("/state/hotels")} // Navigate to /states/hotels
+            onClick={() => {
+              setDestination(destination.state)
+              navigate("/state/hotels")
+            }} // Navigate to /states/hotels
           >
             <CardContent className="p-0 relative">
               <div className="relative aspect-[4/3]">

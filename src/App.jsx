@@ -9,10 +9,12 @@ import States from './pages/Divisons';
 import Page from './admin/page';
 
 function App() {
+
   const [userInfo, setUserInfo] = useState(null);
   const [isLogged, setIsLogged] = useState(false);
   const [booking, setBooking] = useState(false);
   const [dialogOpen, setDialogOpen] = useState(false)
+  const [destination, setDestination] = useState("");
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -44,8 +46,8 @@ function App() {
               <Header setIsLogged={setIsLogged} setUserInfo={setUserInfo} userInfo={userInfo} isLogged={isLogged} dialogOpen={dialogOpen} setDialogOpen={setDialogOpen}/>
               <Routes>
                 <Route path="/" element={<Home />} />
-                <Route path="/state/hotels" element={<HotelListing booking={booking} setBooking={setBooking} dialogOpen={dialogOpen} setDialogOpen={setDialogOpen}/>} />
-                <Route path="/divisons" element={<States />} />
+                <Route path="/state/hotels" element={<HotelListing booking={booking} setBooking={setBooking} dialogOpen={dialogOpen} setDialogOpen={setDialogOpen} destination={destination}/>} />
+                <Route path="/divisons" element={<States setDestination={setDestination}/>} />
               </Routes>
               <Footer />
             </>
